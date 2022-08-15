@@ -427,6 +427,7 @@ function M.attach(client, bufnr)
 		return
 	end
 
+	navic_context_data[bufnr] = {}
 	vim.b.navic_client_id = client.id
 	vim.b.navic_client_name = client.name
 	local changedtick = 0
