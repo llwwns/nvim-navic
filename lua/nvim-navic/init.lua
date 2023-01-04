@@ -426,41 +426,11 @@ function M.get_data(bufnr)
 end
 
 function M.is_available(bufnr)
-  return navic_context_data ~= nil
+  return navic_context_data ~= nil and navic_context_data[bufnr] ~= nil
 end
 
 function M.get_location(bufnr)
-	local local_config = {}
-
-	if opts ~= nil then
-		local_config = vim.deepcopy(config)
-
-		if opts.icons ~= nil then
-			for k, v in pairs(opts.icons) do
-				if lsp_str_to_num[k] then
-					local_config.icons[lsp_str_to_num[k]] = v
-				end
-			end
-		end
-
-		if opts.separator ~= nil then
-			local_config.separator = opts.separator
-		end
-		if opts.depth_limit ~= nil then
-			local_config.depth_limit = opts.depth_limit
-		end
-		if opts.depth_limit_indicator ~= nil then
-			local_config.depth_limit_indicator = opts.depth_limit_indicator
-		end
-		if opts.highlight ~= nil then
-			local_config.highlight = opts.highlight
-		end
-		if opts.safe_output ~= nil then
-			local_config.safe_output = opts.safe_output
-		end
-	else
-		local_config = config
-	end
+	local local_config = config
 
 	local data = M.get_data(bufnr)
 
