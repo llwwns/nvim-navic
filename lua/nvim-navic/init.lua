@@ -405,6 +405,7 @@ end
 -- returns table of context or nil
 function M.get_data(bufnr)
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local context_data = navic_context_data[bufnr]
 
 	if context_data == nil then
 		return nil
