@@ -360,6 +360,7 @@ local config = {
 	separator = " > ",
 	depth_limit = 0,
 	depth_limit_indicator = "..",
+	safe_output = true
 }
 
 setmetatable(config.icons, {
@@ -396,11 +397,14 @@ function M.setup(opts)
 	if opts.highlight ~= nil then
 		config.highlight = opts.highlight
 	end
+	if opts.safe_output ~= nil then
+		config.safe_output = opts.safe_output
+	end
 end
 
 -- returns table of context or nil
 function M.get_data(bufnr)
-	local context_data = navic_context_data[bufnr]
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
 
 	if context_data == nil then
 		return nil
@@ -451,6 +455,9 @@ function M.get_location(bufnr)
 		if opts.highlight ~= nil then
 			local_config.highlight = opts.highlight
 		end
+		if opts.safe_output ~= nil then
+			local_config.safe_output = opts.safe_output
+		end
 	else
 		local_config = config
 	end
@@ -474,10 +481,19 @@ function M.get_location(bufnr)
 	end
 
 	for _, v in ipairs(data) do
-		if local_config.highlight then
-			table.insert(location, add_hl(v.kind, v.name))
+		local name = ""
+
+		if local_config.safe_output then
+			name = string.gsub(v.name, "%%", "%%%%")
+			name = string.gsub(name, "\n", " ")
 		else
-			table.insert(location, v.icon .. v.name)
+			name = v.name
+		end
+
+		if local_config.highlight then
+			table.insert(location, add_hl(v.kind, name))
+		else
+			table.insert(location, v.icon .. name)
 		end
 	end
 

@@ -73,7 +73,8 @@ Use the `setup` function to modify default parameters.
 * `icons` : Indicate the type of symbol captured. Default icons assume you have nerd-fonts.
 * `highlight` : If set to true, will add colors to icons and text as defined by highlight groups `NavicIcons*` (`NavicIconsFile`, `NavicIconsModule`.. etc.), `NavicText` and `NavicSeparator`.
 * `depth_limit` : Maximum depth of context to be shown. If the context hits this depth limit, it is truncated.
-* `depth_limit_indicatior` : Icon to indicate that `depth_limit` was hit and the shown context is truncated.
+* `depth_limit_indicator` : Icon to indicate that `depth_limit` was hit and the shown context is truncated.
+* `safe_output` : Sanitize the output for use in statusline and winbar.
 
 ```lua
 navic.setup {
@@ -109,6 +110,7 @@ navic.setup {
     separator = " > ",
     depth_limit = 0,
     depth_limit_indicator = "..",
+    safe_output = true
 }
 
 ```
@@ -288,7 +290,7 @@ gl.section.right[1]= {
 
 If you have a creative use case and want the raw context data to work with, you can use the following function
 
-* `get_data()` : Returns a table of intermediate representation of data. Table of tables that contain 'kind', 'name' and 'icon' for each context.
+* `get_data(bufnr)` : Returns a table of intermediate representation of data. Table of tables that contain 'kind', 'name' and 'icon' for each context. `bufnr` is optional argument, defaults to current buffer.
 
 <details>
 <summary>An example output of <code>get_data</code> function: </summary>
